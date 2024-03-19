@@ -130,6 +130,7 @@ import image from '../src/images/image.png'; // Import the background image
 
 
 
+
 const App = () => {
   const [formData, setFormData] = useState({
     username: '',
@@ -137,7 +138,9 @@ const App = () => {
     companyName: '',
     companyAddress: '',
     phone: '',
-    linkedin: ''
+    linkedin: '',
+    degination:'',
+    logo: null,
   });
 
   const [isFront, setIsFront] = useState(true);
@@ -152,17 +155,27 @@ const App = () => {
 
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: value
-    }));
-    if (name === 'companyUrl') {
-      setCompanyUrl(value);
-    } else if (name === 'linkedin') {
-      setLinkedinUrl(value); // Update the LinkedIn URL state
+    const { name, value, type } = e.target;
+    if (type === 'file') {
+      // Handle logo upload
+      setFormData(prevData => ({
+        ...prevData,
+        logo: e.target.files[0], // Store the uploaded file
+      }));
+    } else {
+      // Handle other input changes
+      setFormData(prevData => ({
+        ...prevData,
+        [name]: value
+      }));
+      if (name === 'companyUrl') {
+        setCompanyUrl(value);
+      } else if (name === 'linkedin') {
+        setLinkedinUrl(value); // Update the LinkedIn URL state
+      }
     }
   };
+
   const handleDownload = () => {
     const cardContent = cardRef.current;
   
@@ -207,7 +220,7 @@ const App = () => {
         context.drawImage(cardCanvas, padding.left, padding.top); // Draw the card content at the appropriate position
   
         // Convert the canvas to a data URL and initiate download
-        const imageDataUrl = canvas.toDataURL('image/png');
+        const imageDataUrl = canvas.toDataURL('images/png');
   
         const downloadLink = document.createElement('a');
         downloadLink.href = imageDataUrl;
@@ -264,7 +277,7 @@ const App = () => {
         context.drawImage(cardCanvas, padding.left, padding.top); // Draw the card content at the appropriate position
   
         // Convert the canvas to a data URL and initiate download
-        const imageDataUrl = canvas.toDataURL('image/png');
+        const imageDataUrl = canvas.toDataURL('images/png');
   
         const downloadLink = document.createElement('a');
         downloadLink.href = imageDataUrl;
@@ -286,28 +299,39 @@ const App = () => {
         <div className="overlay">
           <div className="overlay-content" ref={cardRef}>
             {isFront ? (
-              <>
-                <div className='front_side'>
-                  <h2 className='username'>{formData.username}</h2>
-                  <p className='email'>{formData.email}</p>
-                </div>
-                <div className="qr-code">
-        <QRCode value={companyUrl} style={{ width: '40px', height: '40px' }}/>
-      </div>
-     
-              </>
+            <>
+            <div className='front_side'>
+              <div className='setform'>
+                <h2 className='username'>{formData.username}</h2>
+                <h2 className='degignation'>{formData.degination}</h2>
+              </div>
+              <div className='divider'></div>
+              <div className='phone'>
+                <p className='phone'>{formData.phone}</p>
+              </div>
+              <div >
+                <p className='linkdin'>{formData.linkedin}</p>
+              </div>
+              <div className=''>
+                <p className='address'>{formData.companyAddress}</p>
+              </div>
+              <div>
+                {/* Display the uploaded logo as an image */}
+                {formData.logo && (
+                  <img src={URL.createObjectURL(formData.logo)} alt="Logo" className="logo" />
+                )}
+              </div>
+              {/* <p className='email'>{formData.email}</p> */}
+            </div>
+          </>
             ) : (
               <>
                 <div className='back_side'>
                   <h2 className='username'>{formData.companyName}</h2>
-                  <p className=''>{formData.companyAddress}</p>
-                  <p className=''>{formData.phone}</p>
-                  <p className=''>{formData.linkedin}</p>
                 </div>
                 <div className="qr-code">
-        <QRCode value={companyUrl} style={{ width: '40px', height: '40px' }}/>
-      </div>
-     
+                  <QRCode value={companyUrl} style={{ width: '40px', height: '40px' }}/>
+                </div>
               </>
             )}
           </div>
@@ -320,6 +344,18 @@ const App = () => {
           placeholder="Username"
           value={formData.username}
           onChange={handleInputChange}
+          minLength={3} // Minimum length of 3 characters
+          maxLength={18} // Maximum length of 18 characters
+          required
+        />
+        <input
+          type="text"
+          name="degination"
+          placeholder="Degination"
+          value={formData.degination}
+          onChange={handleInputChange}
+          minLength={3} // Minimum length of 3 characters
+          maxLength={25} 
           required
         />
         <input
@@ -343,20 +379,26 @@ const App = () => {
           placeholder="Company Address"
           value={formData.companyAddress}
           onChange={handleInputChange}
+          minLength={3} // Minimum length of 3 characters
+          maxLength={25} 
         />
         <input
-          type="text"
+          type="number"
           name="phone"
           placeholder="Phone"
           value={formData.phone}
           onChange={handleInputChange}
+          maxLength={10}
+          pattern="[0-9]*" // Only allow numerical input
         />
-     <input
+        <input
           type="text"
           name="linkedin"
           placeholder="LinkedIn"
           value={formData.linkedin}
           onChange={handleInputChange}
+          minLength={3} // Minimum length of 3 characters
+          maxLength={23} 
         />
         <input
           type="text"
@@ -365,10 +407,15 @@ const App = () => {
           value={companyUrl}
           onChange={handleInputChange}
         />
+        <input
+          type="file"
+          name="logo"
+          accept="image/*"
+          onChange={handleInputChange}
+        />
         <button type="button" className="toggle-button" onClick={toggleSide}>{isFront ? 'Back' : 'Front'}</button>
         <button type="button" className="download-button" onClick={handleDownload}>Download Front</button>
         <button type="button" className="download-button" onClick={handleDownloadBack}>Download Back</button>
-
       </form>
     </div>
   );

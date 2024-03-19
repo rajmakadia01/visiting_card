@@ -23,7 +23,7 @@
 }
 
 .overlay {
-  position: absolute;
+  position:absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -94,26 +94,95 @@ input {
   top: 90%;
 }
 
-.username{
-  margin: 0px;
-  padding: 0px;
+
+
+.overlay-content {
+  position:absolute;
+  top: 25%;
+  left: 5%;
+  transform: translate(0%, -50%);
+  color: #36454F; /* Adjust text color */
+  font-family: 'Roboto', sans-serif; /* Adjust font family */
 }
 
-.email{
-  margin: 0px;
-  padding: 0px;
-}
-
-
-
-.image-container {
+.front_side {
   position: relative;
-  background-image: url('../src/images/v_2.png'); /* Set the background image */
-  background-size: cover;
-  background-position: center;
-  width: 28%;
-  height: 28%;
+  text-align: start;
 }
+
+.back_side {
+  position: relative;
+}
+
+.qr-code {
+  position: absolute;
+  bottom: 10px; /* Adjust positioning if necessary */
+  right: 10px; /* Adjust positioning if necessary */
+}
+
+.setform{
+  text-align: start;
+}
+
+.degignation{
+  padding: 0%;
+  margin: 0%;
+}
+
+.username{
+  padding: 0%;
+  margin: 0%;
+  font-size: medium;
+  text-align: start;
+}
+
+.phone{
+  position: absolute;
+  top: 180%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  color: #36454F; /* Adjust text color */
+  font-family: 'Roboto', sans-serif; /* Adjust font family */
+}
+
+.linkdin{
+  position:absolute;
+  top: 265%;
+  left: 25%;
+  transform: translate(0%, -50%);
+  color: #36454F; /* Adjust text color */
+  font-family: 'Roboto', sans-serif; /* Adjust font family */
+  font-size: 16px !important;
+}
+
+.address{
+  position:absolute;
+  top: 325%;
+  left: 25%;
+  color: #36454F; /* Adjust text color */
+  font-family: 'Roboto', sans-serif; /* Adjust font family */
+  font-size: 14px !important;
+}
+
+.logo{
+  position: absolute;
+  top: -10px;
+  left: 270px;
+  color: #36454F;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px !important;
+  /* width: 50% !important; */
+  width: 200px;
+  height: 200px;
+}
+
+.degignation{
+  font-size: 14px !important;
+}
+
+
+
+
 
 .back_text{
   text-align: start;
